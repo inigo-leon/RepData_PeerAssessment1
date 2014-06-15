@@ -67,6 +67,28 @@ aggregatedIntervalData[aggregatedIntervalData$steps==max(aggregatedIntervalData$
 
 ## Imputing missing values
 
+Calculate and report the total number of missing values in the dataset
+
+```{r}
+nrow(data[is.na(data$steps),])
+```
+
+
+We fill all of the missing values in the dataset with the mean for that 5-minute interval.
+
+```{r}
+fillNA<-function(data){
+    for (i in 1:nrow(data)){
+        if (is.na(data[i,]$steps)){
+            data[i,]$steps<-aggregatedIntervalData[aggregatedIntervalData$interval==data[i,]$interval,]$steps
+        }
+    }
+    data
+}
+data<-fillNA(data)
+data
+```
+
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
